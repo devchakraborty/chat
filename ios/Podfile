@@ -1,0 +1,20 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'chat' do
+  # Uncomment this line if you're using Swift or would like to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for chat
+
+  pod 'Bolts', '~> 1.8'
+  pod 'FBSDKCoreKit', '~> 4.15'
+  pod 'FBSDKShareKit', '~> 4.15'
+  pod 'FBSDKLoginKit', '~> 4.15'
+
+  target 'chatTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
