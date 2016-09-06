@@ -21,6 +21,10 @@ class NewChatScreen extends Component {
     ]
   };
 
+  static navigatorStyle = {
+    tabBarHidden: true
+  };
+
   constructor(props) {
     super(props);
     this.state = {

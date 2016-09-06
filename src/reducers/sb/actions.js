@@ -12,6 +12,7 @@ export function init() {
       image_url: state.fb.getIn(['profile', 'picture', 'data', 'url']),
       successFunc: (data) => {
         dispatch(didInit());
+        dispatch(fetchChats());
       },
       errorFunc: (status, error) => {
         console.log('sendbird log in error', status, error);
@@ -32,7 +33,7 @@ export function createChat({members}) {
     const createUserPromises = members.map(member =>
       SendbirdAPI.getOrCreateUser({
         user_id: member,
-        nickname: state.fb.getIn(['friends', 'index', member, 'name']),
+        nickname: state.fb.getIn(['friends', 'index', member, 'first_name']),
         profile_url: state.fb.getIn(['friends', 'index', member, 'picture', 'data', 'url']),
         issue_access_token: false
       })
@@ -55,5 +56,23 @@ export function createChat({members}) {
 }
 
 export function fetchChats() {
+  return async function(dispatch, getState) {
+    const state = getState();
+    const fbId = state.fb.getIn(['profile', 'id']);
+    const groupChannels = await SendbirdAPI.getGroupChannels({
+      user_id: fbId,
+      member: true,
+      order: 'latest_last_message',
+      show_empty: true
+    });
+    dispatch(didFetchChats(groupChannels));
+  }
+}
 
+export function didFetchChats({ channels, next }) {
+  return {
+    type: 'sb.didFetchChats',
+    chats: channels,
+    next
+  };
 }

@@ -46,4 +46,8 @@ export default class SendbirdAPI {
       return SendbirdAPI.createUser(params);
     });
   }
+
+  static getGroupChannels(params) {
+    return SendbirdAPI.get({ path: 'group_channels', params });
+  }
 }
